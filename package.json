@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/ThomasDantas/nodejs-tdd-clean/issues"
   },
-  "homepage": "https://github.com/ThomasDantas/nodejs-tdd-clean#readme"
+  "homepage": "https://github.com/ThomasDantas/nodejs-tdd-clean#readme",
+  "devDependencies": {
+    "standard": "^16.0.3"
+  }
 }
