@@ -1,0 +1,20 @@
+{
+  "name": "nodejs-tdd-clean",
+  "version": "1.0.0",
+  "description": "Nodejs, com TDD e Clean Architecture",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThomasDantas/nodejs-tdd-clean.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ThomasDantas/nodejs-tdd-clean/issues"
+  },
+  "homepage": "https://github.com/ThomasDantas/nodejs-tdd-clean#readme"
+}
