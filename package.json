@@ -8,13 +8,7 @@
     "test:staged": "jest"
   },
   "standard":{
-    "env": ["jest"],
-    "*.js": [ "standard --fix", "npm run test:staged", "git add"]
-  },
-  "husky":{
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+    "env": ["jest"]
   },
   "repository": {
     "type": "git",
