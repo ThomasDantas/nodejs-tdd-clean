@@ -4,7 +4,8 @@
   "description": "Nodejs, com TDD e Clean Architecture",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest --watchAll",
+    "test:staged": "jest"
   },
   "standard":{
     "env": ["jest"]
