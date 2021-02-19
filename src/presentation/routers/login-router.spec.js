@@ -8,9 +8,11 @@ const makeSut = () => {
     auth (email, password) {
       this.email = email
       this.password = password
+      return this.accessToken
     }
   }
   const authUseCase = new AuthUseCase()
+  authUseCase.accessToken = 'valid_token'
   const sut = new LoginRouter(authUseCase)
   return {
     sut,
@@ -70,7 +72,8 @@ describe('Login Router', () => {
   })
 
   test('should return 401 when invalid credentials are provided', () => {
-    const { sut } = makeSut()
+    const { sut, authUseCase } = makeSut()
+    authUseCase.accessToken = null
     const httpRequest = {
       body: {
         email: 'invalid@gmail.com',
@@ -82,8 +85,35 @@ describe('Login Router', () => {
     expect(httpResponse.body).toEqual(new UnauthorizedError())
   })
 
-  test('should return 500 if no AuthUseCase has no auth method', () => {
+  test('should return 200 when valid credentials are provided', () => {
+    const { sut, authUseCase } = makeSut()
+    const httpRequest = {
+      body: {
+        email: 'valid@gmail.com',
+        password: 'valid_password'
+      }
+    }
+    const httpResponse = sut.route(httpRequest)
+    expect(httpResponse.statusCode).toBe(200)
+    expect(httpResponse.body.accessToken).toEqual(authUseCase.accessToken)
+  })
+
+  test('should return 500 if no AuthUseCase is provided', () => {
     const sut = new LoginRouter()
+    const httpRequest = {
+      body: {
+        email: 'valid@gmail.com',
+        password: 'valid_password'
+      }
+    }
+    const httpResponse = sut.route(httpRequest)
+    expect(httpResponse.statusCode).toBe(500)
+  })
+
+  test('should return 500 if no AuthUseCase has no auth method', () => {
+    class AuthUseCase {}
+    const authUseCase = new AuthUseCase()
+    const sut = new LoginRouter(authUseCase)
     const httpRequest = {
       body: {
         email: 'valid@gmail.com',
