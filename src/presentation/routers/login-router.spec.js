@@ -29,6 +29,16 @@ const makeEmailValidator = () => {
   return emailValidator
 }
 
+const makeEmailValidatorWithError = () => {
+  class EmailValidator {
+    isValid () {
+      throw new Error()
+    }
+  }
+
+  return new EmailValidator()
+}
+
 const makeAuthUseCase = () => {
   class AuthUseCase {
     async auth (email, password) {
@@ -185,5 +195,47 @@ describe('Login Router', () => {
     const httpResponse = await sut.route(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new InvalidParamError('email'))
+  })
+
+  test('should return 500 if no EmailValidator is provided', async () => {
+    const authUseCase = makeAuthUseCase()
+    const sut = new LoginRouter(authUseCase)
+    const httpRequest = {
+      body: {
+        email: 'valid@gmail.com',
+        password: 'valid_password'
+      }
+    }
+    const httpResponse = await sut.route(httpRequest)
+    expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body).toEqual(new ServerError())
+  })
+
+  test('should return 500 if no EmailValidator has no isValid method', async () => {
+    const authUseCase = makeAuthUseCase()
+    const sut = new LoginRouter(authUseCase, {})
+    const httpRequest = {
+      body: {
+        email: 'valid@gmail.com',
+        password: 'valid_password'
+      }
+    }
+    const httpResponse = await sut.route(httpRequest)
+    expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body).toEqual(new ServerError())
+  })
+
+  test('should return 500 if EmailValidator throws', async () => {
+    const authUseCase = makeAuthUseCase()
+    const emailValidator = makeEmailValidatorWithError()
+    const sut = new LoginRouter(authUseCase, emailValidator)
+    const httpRequest = {
+      body: {
+        email: 'valid@gmail.com',
+        password: 'valid_password'
+      }
+    }
+    const httpResponse = await sut.route(httpRequest)
+    expect(httpResponse.statusCode).toBe(500)
   })
 })
