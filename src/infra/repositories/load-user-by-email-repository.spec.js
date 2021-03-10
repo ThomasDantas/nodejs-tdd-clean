@@ -25,7 +25,7 @@ describe('LoadUserByEmail Repository', () => {
   })
 
   afterAll(async () => {
-    await MongoHelper.close()
+    await MongoHelper.disconnect()
   })
 
   test('Should return null if no user is found', async () => {
