@@ -2,6 +2,7 @@
   "name": "nodejs-tdd-clean",
   "version": "1.0.0",
   "description": "Nodejs, com TDD e Clean Architecture",
+  "author": "Thomas Dantas",
   "main": "src/main/index.js",
   "scripts": {
     "start": "node src/main/index.js",
