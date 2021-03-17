@@ -1,4 +1,3 @@
-
 module.exports = class expressRouterAdapter {
   static adapt (router) {
     return async (req, res) => {
